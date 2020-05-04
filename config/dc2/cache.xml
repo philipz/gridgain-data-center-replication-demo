@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <util:list id="caches">
+        <bean class="org.apache.ignite.configuration.CacheConfiguration">
+            <!-- Setting up basic cache parameters -->
+            <property name="name" value="cart"/>
+            <property name="cacheMode" value="PARTITIONED"/>
+            <property name="backups" value="2"/>
+
+            <property name="queryEntities">
+                <list>
+                    <bean class="org.apache.ignite.cache.QueryEntity">
+                        <property name="tableName" value="CART" />
+
+                        <property name="keyType" value="CartItemKey"/>
+
+                        <property name="keyFields">
+                            <set>
+                                <value>cartId</value>
+                                <value>productId</value>
+                            </set>
+                        </property>
+
+                        <property name="valueType" value="CartItem"/>
+
+                        <property name="fields">
+                            <map>
+                                <entry key="cartId" value="java.util.UUID"/>
+                                <entry key="productId" value="java.util.UUID"/>
+                                <entry key="category" value="java.lang.String"/>
+                                <entry key="name" value="java.lang.String"/>
+                                <entry key="count" value="java.lang.Integer"/>
+                                <entry key="createTime" value="java.lang.Long"/>
+                                <entry key="updateTime" value="java.lang.Long"/>
+                            </map>
+                        </property>
+                    </bean>
+                </list>
+            </property>
+
+            <!-- Setting up DR related cache parameters -->
+            <property name="pluginConfigurations">
+                <bean class="org.gridgain.grid.configuration.GridGainCacheConfiguration">
+                    <!-- Uncomment this property to enable sending updates. -->
+<!--                    <property name="drSenderConfiguration">
+                        <bean class="org.gridgain.grid.cache.dr.CacheDrSenderConfiguration">
+                            <property name="senderGroup" value="group-1"/>
+                        </bean>
+                    </property>-->
+
+                    <!--
+                        Activate receiving and applying of cache updates coming from the remote DR.
+                        https://gridgain.readme.io/docs/receiver-cache
+                    -->
+                    <property name="drReceiverEnabled" value="true"/>
+
+                    <!-- Conflict resolver implementation used in the example. -->
+                    <!-- Uncomment this property to add conflict resolver to the cache configuration. -->
+<!--                    <property name="conflictResolver">
+                        <bean class="org.gridgain.demo.cart.CartItemConflictResolver"/>
+                    </property>-->
+                </bean>
+            </property>
+        </bean>
+    </util:list>
+</beans>

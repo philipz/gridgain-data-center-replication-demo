@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <import resource="cache.xml"/>
+
+    <bean id="ignite.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
+        <property name="cacheConfiguration" ref="caches"/>
+
+        <property name="clientMode" value="true"/>
+
+        <property name="discoverySpi">
+            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+                <!-- Changing initial local port number for nodes from this data center. -->
+                <property name="localPort" value="46500"/>
+
+                <property name="ipFinder">
+                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder">
+                        <property name="multicastPort" value="46400"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+
+        <!-- Additional DR specific settings -->
+        <property name="pluginConfigurations">
+            <list>
+                <bean class="org.gridgain.grid.configuration.GridGainConfiguration">
+                    <!-- Unique ID of this data center -->
+                    <property name="dataCenterId" value="1"/>
+
+                    <!--
+                        Setting up sender HUB specific parameters.
+                        https://gridgain.readme.io/docs/sender-hub
+                    -->
+                    <property name="drSenderConfiguration">
+                        <bean class="org.gridgain.grid.configuration.DrSenderConfiguration">
+                            <!--
+                                List of sender groups this sender will participate in.
+                                https://gridgain.readme.io/docs/data-center-replication#section-sender-groups
+                            -->
+                            <property name="senderGroups" value="group-1"/>
+
+                            <!-- Sender HUB connection configuration -->
+                            <property name="connectionConfiguration">
+                                <bean class="org.gridgain.grid.dr.DrSenderConnectionConfiguration">
+                                    <!-- Remote data center ID where cache data has to be replicated -->
+                                    <property name="dataCenterId" value="2"/>
+
+                                    <!-- Addresses of the remote data center's receiver HUB -->
+                                    <property name="receiverAddresses" value="dc2-hub:50000"/>
+                                </bean>
+                            </property>
+                        </bean>
+                    </property>
+
+                    <!-- Uncomment this property to enable Receiver. -->
+                    <!--<property name="drReceiverConfiguration">
+                        <bean class="org.gridgain.grid.configuration.DrReceiverConfiguration">
+                            <property name="localInboundPort" value="50000"/>
+                        </bean>
+                    </property>-->
+
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>
+

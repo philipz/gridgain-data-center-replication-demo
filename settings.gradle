@@ -1,0 +1,3 @@
+rootProject.name = 'dr-demo'
+include 'conflict-resolver'
+

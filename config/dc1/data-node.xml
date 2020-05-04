@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <import resource="cache.xml"/>
+
+    <bean id="ignite.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
+        <property name="cacheConfiguration" ref="caches"/>
+
+        <property name="clientMode" value="false"/>
+
+        <!--
+            Since the example is started on a single physical machine we need to configure specific TCP discovery SPI
+            for each data center so that nodes from different data centers don't see each other.
+        -->
+        <property name="discoverySpi">
+            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+                <!-- Changing initial local port number for nodes from this data center. -->
+                <property name="localPort" value="46500"/>
+
+                <property name="ipFinder">
+                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder">
+                        <property name="multicastPort" value="46400"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+
+        <!-- Additional DR specific settings -->
+        <property name="pluginConfigurations">
+            <list>
+                <bean class="org.gridgain.grid.configuration.GridGainConfiguration">
+                    <!-- Unique ID of this data center -->
+                    <property name="dataCenterId" value="1"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>
+

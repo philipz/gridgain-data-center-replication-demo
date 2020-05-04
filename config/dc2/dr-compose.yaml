@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  data-node:
+    image: gridgain/enterprise:8.7.14
+    networks:
+      - dr-network-dc2
+    volumes:
+      - ./cache.xml:/cache.xml
+      - ./data-node.xml:/config.xml
+      - ./conflict-resolver.jar:/opt/gridgain/libs/conflict-resolver.jar
+    environment:
+      - CONFIG_URI=/config.xml
+      - IGNITE_QUIET=false
+    ports:
+      - "10802:10800"
+
+  snd-rcv-node:
+    image: gridgain/enterprise:8.7.14
+    depends_on:
+      - data-node
+    networks:
+      dr-network-dc2:
+      cross-dc-network:
+        aliases:
+          - "dc2-hub"
+    volumes:
+      - ./cache.xml:/cache.xml
+      - ./hub-node.xml:/config.xml
+      - ./conflict-resolver.jar:/opt/gridgain/libs/conflict-resolver.jar
+    environment:
+      - CONFIG_URI=/config.xml
+      - IGNITE_QUIET=false
+
+networks:
+  dr-network-dc2:
+
+  cross-dc-network:
+    external: true
