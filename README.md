@@ -4,8 +4,8 @@ The demo shows how to configure Data Center Replication between GridGain cluster
 
 ## Prerequisites
 
-JDK 1.8 or later: https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html.
-Docker (demo was verified on Docker version 19.03.5, build 633a0ea): https://www.docker.com/get-started.
+* JDK 1.8 or later: https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html.
+* Docker (demo was verified on Docker version 19.03.5, build 633a0ea): https://www.docker.com/get-started.
 
 ## Build the Demo
 
