@@ -1,4 +1,4 @@
-# Changes Replication Between GridGain Clusters
+# Demo: GridGain Clusters Synchronization With Data Center Replication Feature
 
 The demo shows how to configure Data Center Replication between GridGain clusters.
 
@@ -11,33 +11,38 @@ The demo shows how to configure Data Center Replication between GridGain cluster
 
 Clone or download this repository and build it by running `./gradlew clean assembly` from the root of the project.
 
-## Start GridGain Clusters in Docker
+## Deploy GridGain Clusters in Docker
 
-Change directory to `$projectRoot/build/assembly`. After that execute `docker-compose -f config/dc1/dr-compose.yaml up -d`
-and `docker-compose -f config/dc2/dr-compose.yaml up -d` to start both clusters.
+* Navigate to `$projectRoot/build/assembly` directory.
+* Deploy and start the first cluster: `docker-compose -f config/dc1/dr-compose.yaml up -d`.
+* Deploy and start the second cluster: `docker-compose -f config/dc2/dr-compose.yaml up -d`.
 
 ## Start Demo Application
 
-Once both clusters are started, you will need to start two demo application: one for Data Center 1 and another for 
-Data Center 2. You could start demo applications by executing following commands from `assembly` directory:
-* `java -jar -Dserver.port=8081  -Dignite.address=127.0.0.1:10801 dr-demo-app.jar &` - to start application for DC 1.
-* `java -jar -Dserver.port=8082  -Dignite.address=127.0.0.1:10802 dr-demo-app.jar &` - to start application for DC 2.
+Once the clusters are started, you will need to launch two instances of the demo application. Each instance of the application will be connected and working with one of the clusters:
+* Start the application for the fisrt cluster - `java -jar -Dserver.port=8081  -Dignite.address=127.0.0.1:10801 dr-demo-app.jar &`
+* Start the application for the second cluster - `java -jar -Dserver.port=8082  -Dignite.address=127.0.0.1:10802 dr-demo-app.jar &`
 
-## Verify Replication is Started
+## Verify That Replication Works
 
-Before starting to work with application you need to verify status of the replication via `control.sh`. To get access 
-to the `control.sh` utility you need to go inside the docker container. It could be achieved by executing
-`docker-compose -f config/dc1/dr-compose.yaml exec -u 0 data-node /bin/sh` from the `assembly` directory. After that
- execute `bin/control.sh --dr state --verbose` command and verify an output. If the output doesn't contain
-`Cache cart is stopped with reason "NO_SND_HUBS"` then replication is start working automatically. Otherwise you have
-to start replication manually by executing command `bin/control.sh --dr cache cart --action start --yes`.
+You can use `control.sh` script, that is distributed within the GridGain package, to verify that the data center replication is set up and works as expected.
 
-## Check That Changes Were Replicated
+Get access to a docker container of one of the nodes from the first cluster:
+`docker-compose -f config/dc1/dr-compose.yaml exec -u 0 data-node /bin/sh` 
 
-Open URLs `http://localhost:8081` and `http://localhost:8082` in the browser in different tabs. Verify both carts are 
-empty. After that add some items to the cart from application 1 (it listen the port 8081). Then switch to application 2
-(it listen the port 8082) and refresh the page. Now both cart should be the same.
+After that execute this command: `bin/control.sh --dr state --verbose` 
 
-## Links
+If you do NOT see this message in this output `Cache cart is stopped with reason "NO_SND_HUBS"`, then replication is set up and works normally. Otherwise, start the replication with this command: `bin/control.sh --dr cache cart --action start --yes`.
 
-More documentation is available here: https://www.gridgain.com/docs/latest/administrators-guide/data-center-replication/configuring-replication
+## Change Data and See Changes Replicated
+
+Open URLs `http://localhost:8081` and `http://localhost:8082` in your browser. Verify that both carts are 
+empty. 
+
+After that add some items to the cart using the first application (`http://localhost:8081`). 
+
+Then switch to application 2 (`http://localhost:8082`), refresh the page and see that the changes were automatically replicated to the second cluster.
+
+## Learn More
+
+Lear more about GridGain Data Center replication from our documentation: https://www.gridgain.com/docs/latest/administrators-guide/data-center-replication/configuring-replication
