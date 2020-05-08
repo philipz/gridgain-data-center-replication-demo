@@ -1,4 +1,4 @@
-# Demo: GridGain Clusters Synchronization With Data Center Replication Feature
+# Clusters Synchronization With GridGain Data Center Replication
 
 The demo shows how to configure Data Center Replication between GridGain clusters.
 
