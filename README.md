@@ -1,6 +1,9 @@
 # Clusters Synchronization With GridGain Data Center Replication
 
-The demo shows how to configure Data Center Replication between GridGain clusters.
+The demo shows how to configure Data Center Replication between GridGain clusters. 
+
+In the demo we will fill the shopping cart in one data center, and then make sure that everything is synchronized 
+in the second data center.
 
 ## Prerequisites
 
@@ -37,11 +40,18 @@ If you do NOT see this message in this output `Cache cart is stopped with reason
 ## Change Data and See Changes Replicated
 
 Open URLs `http://localhost:8081` and `http://localhost:8082` in your browser. Verify that both carts are 
-empty. 
+empty:
 
-After that add some items to the cart using the first application (`http://localhost:8081`). 
+![Empty carts](images/empty_carts.png) 
 
-Then switch to application 2 (`http://localhost:8082`), refresh the page and see that the changes were automatically replicated to the second cluster.
+After that add some items to the cart using the first application (`http://localhost:8081`):
+
+![Item in the first cart](images/item_in_the_first_cart.png)
+
+Then switch to application 2 (`http://localhost:8082`), refresh the page and see that the changes were automatically 
+replicated to the second cluster:
+
+![Item in both carts](images/item_in_both_carts.png)
 
 ## Learn More
 
