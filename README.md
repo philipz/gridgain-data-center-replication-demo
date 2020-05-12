@@ -23,7 +23,7 @@ Clone or download this repository and build it by running `./gradlew clean assem
 ## Start Demo Application
 
 Once the clusters are started, you will need to launch two instances of the demo application. Each instance of the application will be connected and working with one of the clusters:
-* Start the application for the fisrt cluster - `java -jar -Dserver.port=8081  -Dignite.address=127.0.0.1:10801 dr-demo-app.jar &`
+* Start the application for the first cluster - `java -jar -Dserver.port=8081  -Dignite.address=127.0.0.1:10801 dr-demo-app.jar &`
 * Start the application for the second cluster - `java -jar -Dserver.port=8082  -Dignite.address=127.0.0.1:10802 dr-demo-app.jar &`
 
 ## Verify That Replication Works
