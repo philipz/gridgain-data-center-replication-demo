@@ -10,3 +10,17 @@ build/
 *.iml
 *.ipr
 out/
+### Visual Studio Code ###
+out
+server
+node_modules
+*.vsix
+.DS_Store
+.vscode-test
+undefined
+target
+dist
+bin/
+.settings
+.classpath
+.project

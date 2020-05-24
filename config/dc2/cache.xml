@@ -50,11 +50,11 @@
             <property name="pluginConfigurations">
                 <bean class="org.gridgain.grid.configuration.GridGainCacheConfiguration">
                     <!-- Uncomment this property to enable sending updates. -->
-<!--                    <property name="drSenderConfiguration">
+                    <property name="drSenderConfiguration">
                         <bean class="org.gridgain.grid.cache.dr.CacheDrSenderConfiguration">
-                            <property name="senderGroup" value="group-1"/>
+                            <property name="senderGroup" value="group-2"/>
                         </bean>
-                    </property>-->
+                    </property>
 
                     <!--
                         Activate receiving and applying of cache updates coming from the remote DR.
@@ -64,9 +64,9 @@
 
                     <!-- Conflict resolver implementation used in the example. -->
                     <!-- Uncomment this property to add conflict resolver to the cache configuration. -->
-<!--                    <property name="conflictResolver">
+                    <property name="conflictResolver">
                         <bean class="org.gridgain.demo.cart.CartItemConflictResolver"/>
-                    </property>-->
+                    </property>
                 </bean>
             </property>
         </bean>

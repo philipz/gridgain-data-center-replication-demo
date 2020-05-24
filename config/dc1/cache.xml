@@ -64,13 +64,13 @@
                     </property>
 
                     <!-- Uncomment this property to enable receiving updates. -->
-<!--                    <property name="drReceiverEnabled" value="true"/>-->
+                    <property name="drReceiverEnabled" value="true"/>
 
                     <!-- Conflict resolver implementation used in the example. -->
                     <!-- Uncomment this property to add conflict resolver to the cache configuration. -->
-<!--                     <property name="conflictResolver">
+                    <property name="conflictResolver">
                         <bean class="org.gridgain.demo.cart.CartItemConflictResolver"/>
-                    </property> -->
+                    </property>
                 </bean>
             </property>
         </bean>

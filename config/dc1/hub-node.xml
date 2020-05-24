@@ -62,11 +62,11 @@
                     </property>
 
                     <!-- Uncomment this property to enable Receiver. -->
-                    <!--<property name="drReceiverConfiguration">
+                    <property name="drReceiverConfiguration">
                         <bean class="org.gridgain.grid.configuration.DrReceiverConfiguration">
                             <property name="localInboundPort" value="50000"/>
                         </bean>
-                    </property>-->
+                    </property>
 
                 </bean>
             </list>

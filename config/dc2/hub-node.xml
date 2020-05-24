@@ -37,9 +37,9 @@
                     <property name="dataCenterId" value="2"/>
 
                     <!-- Uncomment this property to enable Sender. -->
-<!--                    <property name="drSenderConfiguration">
+                    <property name="drSenderConfiguration">
                         <bean class="org.gridgain.grid.configuration.DrSenderConfiguration">
-                            <property name="senderGroups" value="group-1"/>
+                            <property name="senderGroups" value="group-2"/>
                             <property name="connectionConfiguration">
                                 <bean class="org.gridgain.grid.dr.DrSenderConnectionConfiguration">
                                     <property name="dataCenterId" value="1"/>
@@ -47,19 +47,19 @@
                                 </bean>
                             </property>
                         </bean>
-                    </property>-->
+                    </property>
 
 
                     <!--
                         Setting up receiver HUB specific parameters.
                         https://gridgain.readme.io/docs/receiver-hub
                     -->
-                    <property name="drReceiverConfiguration">
+		    <property name="drReceiverConfiguration">
                         <bean class="org.gridgain.grid.configuration.DrReceiverConfiguration">
                             <!-- TCP port receiver HUB of this data center is bound to. -->
                             <property name="localInboundPort" value="50000"/>
                         </bean>
-                    </property>
+		    </property>
                 </bean>
             </list>
         </property>
